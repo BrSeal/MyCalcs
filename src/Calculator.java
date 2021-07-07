@@ -17,10 +17,10 @@ public class Calculator {
 	private Double numPressed;
 	private double calcResult;
 	private double memoryField;
-	
+
 	private HashMap<String, JButton> buttons = new HashMap<>();
-	
-	
+
+
 	private Calculator() {
 		frame = new JFrame("Calculator");
 		frame.setSize(250, 350);
@@ -29,45 +29,45 @@ public class Calculator {
 		frame.addKeyListener(this.new MyKeyListener());
 		frame.setFocusable(true);
 		setButtons();
-		
+
 		setTextField();
-		
-		
+
+
 		frame.setVisible(true);
-		
+
 	}
-	
+
 	public static void main(String[] args) {
 		new Calculator();
 	}
-	
+
 	private void setButtons() {
 		initButtons();
-		
-		
+
+
 		BoldPanel buttonsPanel = new BoldPanel();
 		buttonsPanel.setLayout(new GridLayout(6, 4, 3, 3));
-		
+
 		addToPanel(buttonsPanel);
 		frame.add(BorderLayout.SOUTH, buttonsPanel);
-		
-		
+
+
 	}
-	
+
 	private void setTextField() {
-		
+
 		historyTextField = new JTextField(30);
 		historyTextField.setHorizontalAlignment(JTextField.RIGHT);
 		historyTextField.setFont(new Font("Arial", Font.BOLD, 15));
 		historyTextField.setEditable(false);
-		
+
 		currentNumTextField = new JTextField(30);
 		currentNumTextField.setHorizontalAlignment(JTextField.RIGHT);
 		currentNumTextField.setFont(new Font("Arial", Font.BOLD, 20));
 		currentNumTextField.setEditable(false);
 		currentNumTextField.setText("0");
-		
-		
+
+
 		JPanel textPanel = new JPanel();
 		textPanel.setLayout(new GridLayout(2, 1));
 		textPanel.add(historyTextField);
@@ -75,7 +75,7 @@ public class Calculator {
 		currentNumTextField.requestFocus();
 		frame.add(BorderLayout.CENTER, textPanel);
 	}
-	
+
 	private void initButtons() {
 		buttons.put("MR", new JButton("MR"));
 		buttons.put("M+", new JButton("M+"));
@@ -101,17 +101,17 @@ public class Calculator {
 		buttons.put(".", new JButton("."));
 		buttons.put("+", new JButton("+"));
 		buttons.put("=", new JButton("="));
-		
+
 		ButtonListener listener = new ButtonListener();
-		
+
 		for (Map.Entry<String, JButton> i : buttons.entrySet()) {
 			i.getValue().addActionListener(listener);
 		}
 	}
-	
+
 	private double calculate(Double number,String command) {
-		
-		
+
+
 		switch (command){
 			case "+":
 				calcResult+=number;
@@ -121,23 +121,23 @@ public class Calculator {
 				break;
 			case "/":
 				calcResult/=number;
-				
+
 				break;
 			case "*":
 				calcResult*=number;
-				
+
 				break;
 			case "%":
 				calcResult%=number;
 			case "=":
-			
+
 		}
 		return calcResult;
 	}
-	
+
 	private void addToPanel(BoldPanel p) {
 		try {
-			
+
 			p.add(getButton("MR"));
 			p.add(getButton("M+"));
 			p.add(getButton("M-"));
@@ -163,47 +163,47 @@ public class Calculator {
 			p.add(getButton("."));
 			p.add(getButton("="));
 			getButton("MR").setEnabled(false);
-			
+
 		} catch (NoSuchButtonException e) {
 			System.out.println(e.errMessage);
 			e.printStackTrace();
 		}
 	}
-	
+
 	private JButton getButton(String s) throws NoSuchButtonException {
 		if (buttons.containsKey(s)) {
 			return buttons.get(s);
 		}
 		throw new NoSuchButtonException(s);
 	}
-	
+
 	private class MyKeyListener implements KeyListener {
 		public void keyTyped(KeyEvent e) {
 			char c = e.getKeyChar();
-			
+
 			if (buttons.containsKey(c + "")) {
 				getButton(c + "").doClick();
-				
+
 			}
 			e.consume();
 		}
-		
+
 		public void keyPressed(KeyEvent e) {
 		}
-		
+
 		public void keyReleased(KeyEvent e) {
 		}
-		
-		
+
+
 	}
-	
+
 	private class ButtonListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			String command = e.getActionCommand();
 			String currentNumText = currentNumTextField.getText();
 			switch (command) {
-				
+
 				case "MR":
 					if (memoryField == Double.parseDouble(currentNumText)) {
 						memoryField = 0;
@@ -230,7 +230,7 @@ public class Calculator {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////
-				
+
 				case "<-":
 					if (currentNumText.startsWith("-")) {
 						if (currentNumText.length() == 2) {
@@ -251,12 +251,12 @@ public class Calculator {
 						memoryField = 0;
 						calcResult=0;
 						buttons.get("MR").setEnabled(false);
-						
+
 					}
 					currentNumTextField.setText("0");
-					
+
 					break;
-				
+
 				case "+-":
 					if (!currentNumText.equals("0")) {
 						if (currentNumText.startsWith("-")) {
@@ -268,7 +268,7 @@ public class Calculator {
 					break;
 
 //////// NUMBERS ////////
-				
+
 				case "1":
 				case "2":
 				case "3":
@@ -279,7 +279,7 @@ public class Calculator {
 				case "8":
 				case "9":
 				case "0":
-					
+
 					if (commandPressed) {
 						currentNumText="0";
 					}
@@ -292,10 +292,10 @@ public class Calculator {
 					}
 					commandPressed = false;
 					break;
-				
+
 				case ".":
 					if (commandPressed) {
-						
+
 						currentNumText="0";
 					}
 					if (currentNumText.length() < 16 && !currentNumText.contains(".")) {
@@ -304,21 +304,16 @@ public class Calculator {
 					commandPressed = false;
 					break;
 
-/////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////
-				
-				
 				default:
 					if(numPressed==null) numPressed=Double.parseDouble(currentNumText);
 					else {
-//????
 					}
 			}
-			
+
 			frame.requestFocus();
-			
+
 		}
-		
-		
+
+
 	}
 }
