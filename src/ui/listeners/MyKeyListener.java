@@ -1,4 +1,4 @@
-package ui;
+package ui.listeners;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;
@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Optional;
 
 //TODO не работает
-class MyKeyListener implements KeyListener {
+public class MyKeyListener implements KeyListener {
     private final Map<Integer, JButton> buttons = new HashMap<>();
 
     public void keyTyped(KeyEvent e) {

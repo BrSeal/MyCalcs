@@ -2,6 +2,8 @@ package ui;
 
 import service.ButtonCode;
 import service.Calculator;
+import ui.listeners.ButtonListener;
+import ui.listeners.MyKeyListener;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,12 +12,10 @@ import java.util.Comparator;
 
 public class MainFrame extends JFrame {
 
-    private final Calculator calculator;
     public MainFrame(String name, Calculator calculator) {
         super(name);
 
         MyKeyListener keyListener = new MyKeyListener();
-        this.calculator = calculator;
 
         setSize(250, 350);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -24,7 +24,7 @@ public class MainFrame extends JFrame {
         setFocusable(true);
 
         add(BorderLayout.CENTER, createTextPanel());
-        add(BorderLayout.SOUTH, createButtonsPanel(keyListener));
+        add(BorderLayout.SOUTH, createButtonsPanel(keyListener, calculator));
     }
 
     private JPanel createTextPanel(){
@@ -40,8 +40,8 @@ public class MainFrame extends JFrame {
         return textPanel;
     }
 
-    private JPanel createButtonsPanel(MyKeyListener keyListener){
-        ButtonListener buttonListener = new ButtonListener();
+    private JPanel createButtonsPanel(MyKeyListener keyListener, Calculator calculator){
+        ButtonListener buttonListener = new ButtonListener(calculator);
 
         JPanel buttonsPanel = new BoldPanel();
         buttonsPanel.setLayout(new GridLayout(6, 4, 3, 3));

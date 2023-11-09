@@ -21,7 +21,7 @@ public enum ButtonCode {
     PLUS("+", 20, VK_PLUS),
     MINUS("-", 12, VK_MINUS),
     MULTIPLY("*", 16, VK_ASTERISK),
-    DEVIDE("/", 8, VK_SLASH),
+    DIVIDE("/", 8, VK_SLASH),
     REMINDER("%",5),
     SQUARE_ROOT("√",6),
     EQUAL("=", 24, VK_EQUALS),

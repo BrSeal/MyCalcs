@@ -2,26 +2,28 @@ package service;
 
 public class Calculator { private double calcResult;
 
-    private double calculate(Double number, String command) {
-        switch (command) {
-            case "+":
+    public double calculate(Double number, ButtonCode code) {
+        switch (code) {
+            case PLUS:
                 calcResult += number;
                 break;
-            case "-":
+            case MINUS:
                 calcResult -= number;
                 break;
-            case "/":
+            case DIVIDE:
                 calcResult /= number;
-
                 break;
-            case "*":
+            case MULTIPLY:
                 calcResult *= number;
-
                 break;
-            case "%":
+            case REMINDER:
                 calcResult %= number;
-            case "=":
-
+            case SQUARE_ROOT:
+                break;
+            case SIGN:
+                break;
+            case EQUAL:
+                break;
         }
         return calcResult;
     }
