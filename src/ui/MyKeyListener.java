@@ -1,35 +1,32 @@
 package ui;
 
-import service.Calculator;
-
 import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
+//TODO не работает
 class MyKeyListener implements KeyListener {
-
-    //TODO Отвязать от калькулятора
-    private final Map<String, JButton> buttons;
-
-    public MyKeyListener(Map<String, JButton> buttons) {
-        this.buttons = buttons;
-    }
+    private final Map<Integer, JButton> buttons = new HashMap<>();
 
     public void keyTyped(KeyEvent e) {
-        char c = e.getKeyChar();
-
-        if (buttons.containsKey(c + "")) {
-            buttons.get(c + "").doClick();
-        }
+        System.out.println("keyTyped "+e.getKeyCode());
+        Optional.of(e.getKeyCode())
+                .map(buttons::get)
+                .ifPresent(JButton::doClick);
         e.consume();
     }
 
+    public void addButton(int keyCode, JButton button){
+        buttons.put(keyCode, button);
+    }
+
     public void keyPressed(KeyEvent e) {
+        System.out.println("key keyPressed "+e.getKeyCode());
     }
-
     public void keyReleased(KeyEvent e) {
+        System.out.println("key keyReleased "+e.getKeyCode());
     }
-
-
 }
