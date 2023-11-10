@@ -16,7 +16,6 @@ public class MyKeyListener implements KeyListener {
         Optional.of(e.getKeyCode())
                 .map(buttons::get)
                 .ifPresent(JButton::doClick);
-        e.consume();
     }
 
     public void addButton(int keyCode, JButton button){

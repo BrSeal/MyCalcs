@@ -1,31 +1,22 @@
 package service;
 
-public class Calculator { private double calcResult;
+import operations.ArithmeticOperation;
 
-    public double calculate(Double number, ButtonCode code) {
-        switch (code) {
-            case PLUS:
-                calcResult += number;
-                break;
-            case MINUS:
-                calcResult -= number;
-                break;
-            case DIVIDE:
-                calcResult /= number;
-                break;
-            case MULTIPLY:
-                calcResult *= number;
-                break;
-            case REMINDER:
-                calcResult %= number;
-            case SQUARE_ROOT:
-                break;
-            case SIGN:
-                break;
-            case EQUAL:
-                break;
-        }
-        return calcResult;
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
+
+public class Calculator {
+    public BigDecimal calculate(BigDecimal a, BigDecimal b, ArithmeticOperation operation) {
+        return switch (operation) {
+            case PLUS -> a.add(b);
+            case         MINUS -> a.subtract(b);
+            case         MULTIPLY -> a.multiply(b);
+            case         DIVIDE -> a.divide(b, RoundingMode.FLOOR);
+            case         REMINDER ->  a.remainder(b);
+            case         SQUARE_ROOT -> a.sqrt(MathContext.DECIMAL64);
+            case         EQUAL -> a;
+        };
     }
 
 }

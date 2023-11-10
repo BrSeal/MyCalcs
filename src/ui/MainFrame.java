@@ -1,22 +1,24 @@
 package ui;
 
-import service.ButtonCode;
+import operations.ArithmeticOperation;
+import operations.InputOperation;
+import operations.MemoryOperation;
 import service.Calculator;
-import ui.listeners.ButtonListener;
-import ui.listeners.MyKeyListener;
+import ui.listeners.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Arrays;
-import java.util.Comparator;
+import java.util.*;
+import java.util.stream.Stream;
 
 public class MainFrame extends JFrame {
 
+    private final Calculator calculator;
+    private final MyKeyListener keyListener = new MyKeyListener();
+
     public MainFrame(String name, Calculator calculator) {
         super(name);
-
-        MyKeyListener keyListener = new MyKeyListener();
-
+        this.calculator = calculator;
         setSize(250, 350);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
@@ -24,10 +26,10 @@ public class MainFrame extends JFrame {
         setFocusable(true);
 
         add(BorderLayout.CENTER, createTextPanel());
-        add(BorderLayout.SOUTH, createButtonsPanel(keyListener, calculator));
+        add(BorderLayout.SOUTH, createButtonsPanel());
     }
 
-    private JPanel createTextPanel(){
+    private JPanel createTextPanel() {
         JPanel textPanel = new JPanel();
         NonEditableTextField historyTextField = new NonEditableTextField(30, 15);
         NonEditableTextField currentNumTextField = new NonEditableTextField(30, 20);
@@ -40,26 +42,43 @@ public class MainFrame extends JFrame {
         return textPanel;
     }
 
-    private JPanel createButtonsPanel(MyKeyListener keyListener, Calculator calculator){
-        ButtonListener buttonListener = new ButtonListener(calculator);
-
+    private JPanel createButtonsPanel() {
         JPanel buttonsPanel = new BoldPanel();
         buttonsPanel.setLayout(new GridLayout(6, 4, 3, 3));
 
-        Arrays.stream(ButtonCode.values())
-                .sorted(Comparator.comparingInt(b -> b.uiOrder))
-                .forEach(buttonCode -> {
-                    JButton button = new JButton(buttonCode.label);
-                    button.addActionListener(buttonListener);
-                    button.setActionCommand(buttonCode.name());
-
-                    buttonsPanel.add(button);
-
-                    if(buttonCode.keyCode != null){
-                        keyListener.addButton(buttonCode.keyCode, button);
-                    }
-                });
+        createButtonsWithOrder().entrySet()
+                .stream()
+                .sorted(Map.Entry.comparingByKey())
+                .map(Map.Entry::getValue)
+                .forEach(buttonsPanel::add);
 
         return buttonsPanel;
+    }
+
+    private Map<Integer, JButton> createButtonsWithOrder() {
+        ActionListenerFactory actionListenerFactory = new ActionListenerFactory(calculator);
+        return Stream.of(
+                        InputOperation.values(),
+                        ArithmeticOperation.values(),
+                        MemoryOperation.values()
+                )
+                .flatMap(Arrays::stream)
+                .reduce(new HashMap<>(),
+                        (map, operation) -> {
+                            JButton button = new JButton(operation.getLabel());
+                            button.setActionCommand(operation.name());
+                            button.addActionListener(actionListenerFactory.getListener(operation));
+
+                            if(operation.getKeyCode() != null) {
+                                keyListener.addButton(operation.getKeyCode(), button);
+                            }
+                            map.put(operation.getUiOrder(), button);
+                            return map;
+                        },
+                        (m, m2) -> {
+                            m.putAll(m2);
+                            return m;
+                        }
+                );
     }
 }
