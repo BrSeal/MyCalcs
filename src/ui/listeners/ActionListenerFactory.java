@@ -1,7 +1,7 @@
 package ui.listeners;
 
 import operations.Operation;
-import service.Calculator;
+import service.CalculationService;
 
 import java.awt.event.ActionListener;
 
@@ -10,10 +10,10 @@ public class ActionListenerFactory {
     private final MemoryOperationButtonListener memoryOperationButtonListener;
     private final ArithmeticOperationButtonListener arithmeticOperationButtonListener;
 
-    public ActionListenerFactory(Calculator calculator){
-        inputOperationButtonListener = new InputOperationButtonListener(calculator);
-        memoryOperationButtonListener = new MemoryOperationButtonListener(calculator);
-        arithmeticOperationButtonListener = new ArithmeticOperationButtonListener(calculator);
+    public ActionListenerFactory(CalculationService calculatorService){
+        inputOperationButtonListener = new InputOperationButtonListener(calculatorService);
+        memoryOperationButtonListener = new MemoryOperationButtonListener(calculatorService);
+        arithmeticOperationButtonListener = new ArithmeticOperationButtonListener(calculatorService);
     }
 
     public ActionListener getListener(Operation operation){

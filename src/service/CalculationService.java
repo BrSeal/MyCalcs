@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
 
-public class Calculator {
+public class CalculationService {
     public BigDecimal calculate(BigDecimal a, BigDecimal b, ArithmeticOperation operation) {
         return switch (operation) {
             case PLUS -> a.add(b);

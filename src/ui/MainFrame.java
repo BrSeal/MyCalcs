@@ -3,7 +3,7 @@ package ui;
 import operations.ArithmeticOperation;
 import operations.InputOperation;
 import operations.MemoryOperation;
-import service.Calculator;
+import service.CalculationService;
 import ui.listeners.*;
 
 import javax.swing.*;
@@ -13,12 +13,12 @@ import java.util.stream.Stream;
 
 public class MainFrame extends JFrame {
 
-    private final Calculator calculator;
+    private final CalculationService calculationService;
     private final MyKeyListener keyListener = new MyKeyListener();
 
-    public MainFrame(String name, Calculator calculator) {
+    public MainFrame(String name, CalculationService calculationService) {
         super(name);
-        this.calculator = calculator;
+        this.calculationService = calculationService;
         setSize(250, 350);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
@@ -56,7 +56,7 @@ public class MainFrame extends JFrame {
     }
 
     private Map<Integer, JButton> createButtonsWithOrder() {
-        ActionListenerFactory actionListenerFactory = new ActionListenerFactory(calculator);
+        ActionListenerFactory actionListenerFactory = new ActionListenerFactory(calculationService);
         return Stream.of(
                         InputOperation.values(),
                         ArithmeticOperation.values(),
