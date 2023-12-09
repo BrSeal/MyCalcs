@@ -37,13 +37,13 @@ public enum InputOperation implements Operation{
      */
     private final Integer keyCode;
 
-    InputOperation(String text, int uiOrder){
-        this(text, uiOrder, null);
+    InputOperation(String label, int uiOrder){
+        this(label, uiOrder, null);
     }
 
-    InputOperation(String text, int uiOrder, Integer keyCode){
+    InputOperation(String label, int uiOrder, Integer keyCode){
         this.keyCode = keyCode;
-        this.label = text;
+        this.label = label;
         this.uiOrder = uiOrder;
     }
 

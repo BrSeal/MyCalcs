@@ -1,21 +1,22 @@
 package ui.listeners;
 
 import operations.InputOperation;
-import service.CalculationService;
+import service.InputService;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class InputOperationButtonListener implements ActionListener {
-    CalculationService calculatorService;
+    InputService service;
 
-    public InputOperationButtonListener(CalculationService calculatorService){
-        this.calculatorService = calculatorService;
+    public InputOperationButtonListener(InputService service){
+        this.service = service;
     }
     @Override
     public void actionPerformed(ActionEvent e) {
-        InputOperation code = InputOperation.valueOf(e.getActionCommand());
-//        double res = calculatorService.calculate(code);
-        System.out.println("InputOperation "+code.getLabel());
+        InputOperation input = InputOperation.valueOf(e.getActionCommand());
+
+        service.handleInput(input);
+        System.out.printf("Current input: %s, inputString:%s, value:%s\n\r", input.getLabel(), service.getInputString(), service.getInput());
     }
 }

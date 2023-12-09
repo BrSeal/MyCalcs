@@ -2,15 +2,16 @@ package ui.listeners;
 
 import operations.MemoryOperation;
 import service.CalculationService;
+import service.Calculator;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class MemoryOperationButtonListener implements ActionListener {
-    CalculationService calculatorService;
+    Calculator calculator;
 
-    public MemoryOperationButtonListener(CalculationService calculationService){
-        this.calculatorService = calculationService;
+    public MemoryOperationButtonListener(Calculator calculator){
+        this.calculator = calculator;
     }
     @Override
     public void actionPerformed(ActionEvent e) {
